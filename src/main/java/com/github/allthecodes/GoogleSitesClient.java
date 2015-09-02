@@ -1,4 +1,4 @@
-package org.danielmurley.plugins;
+package com.github.allthecodes;
 
 import java.io.IOException;
 import java.io.InputStream;
