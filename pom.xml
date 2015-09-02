@@ -3,9 +3,70 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.allthecodes</groupId>
 	<artifactId>gsites-maven-plugin</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<version>0.2-SNAPSHOT</version>
 	<packaging>maven-plugin</packaging>
-	
+
+	<name>Google Sites Maven Plugin</name>
+	<description>Plugin for publishing markdown pages to Google Sites</description>
+	<url>https://github.com/allthecodes/gsites-maven-plugin</url>
+
+	<build>
+	  <plugins>
+	    <plugin>
+	      <groupId>org.apache.maven.plugins</groupId>
+	      <artifactId>maven-gpg-plugin</artifactId>
+	      <version>1.5</version>
+	      <executions>
+	        <execution>
+	          <id>sign-artifacts</id>
+	          <phase>verify</phase>
+	          <goals>
+	            <goal>sign</goal>
+	          </goals>
+	        </execution>
+	      </executions>
+	    </plugin>
+	    <plugin>
+	      <groupId>org.sonatype.plugins</groupId>
+	      <artifactId>nexus-staging-maven-plugin</artifactId>
+	      <version>1.6.3</version>
+	      <extensions>true</extensions>
+	      <configuration>
+	        <serverId>ossrh</serverId>
+	        <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+	        <autoReleaseAfterClose>true</autoReleaseAfterClose>
+	      </configuration>
+	    </plugin>
+	  </plugins>
+	</build>
+
+	<distributionManagement>
+	  <snapshotRepository>
+	    <id>ossrh</id>
+	    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+	  </snapshotRepository>
+	</distributionManagement>
+
+   <developers>
+    <developer>
+      <id>allthecodes</id>
+      <name>Daniel Murley</name>
+    </developer>
+  </developers>
+
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<scm>
+	    <url>https://github.com/allthecodes/gsites-maven-plugin.git</url>
+	</scm>
+
 
 	<dependencies>
 		<dependency>
