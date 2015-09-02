@@ -7,9 +7,9 @@ Add the below to your pom.xml
 ```xml
   <plugins>
       <plugin>
-      <groupId>org.danielmurley</groupId>
+      <groupId>com.github.allthecodes</groupId>
       <artifactId>gsites-maven-plugin</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <version>0.1</version>
       <configuration>
           <markdownFile>src/main/resources/my-fancy-markdown-file.md</markdownFile>
           <sitesPublishLocation>/path/to/page</sitesPublishLocation>
