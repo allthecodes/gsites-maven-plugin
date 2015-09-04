@@ -9,12 +9,14 @@ Add the below to your pom.xml
       <plugin>
       <groupId>com.github.allthecodes</groupId>
       <artifactId>gsites-maven-plugin</artifactId>
-      <version>0.1</version>
+      <version>0.2</version>
       <configuration>
           <markdownFile>src/main/resources/my-fancy-markdown-file.md</markdownFile>
           <sitesPublishLocation>/path/to/page</sitesPublishLocation>
           <sitesDomainName>site</sitesDomainName>
           <sitesSiteName>home</sitesSiteName>
+          <pageName>my-super-page</pageName>
+          <pageTitle>My Super Fancy Happy Page</pageTitle>
       </configuration>
       </plugin>
   </plugins>

@@ -105,7 +105,7 @@ public class GoogleSitesClient {
 					.authorize("user");
 
 			return credential;
-		} catch (IOException e) {
+		} catch (NullPointerException | IOException e) {
 			throw new RuntimeException("Unable to open Client Secret File - Cannot proceed", e);
 		}
 
@@ -120,25 +120,15 @@ public class GoogleSitesClient {
 
 	public void publishOrUpdate(String sitesPublishLocation, String sitePageName, String siteTitle, String content) {
 
+		if (updatePageIfExists(sitesPublishLocation, sitePageName, siteTitle, content)) return;
+		
 		ContentFeed feed = getContentFeedForPublishLocation(sitesPublishLocation);
-		ContentFeed feed2 = getContentFeedForPublishLocation(sitesPublishLocation + "/" + sitePageName);
 
-		for (BaseContentEntry bce: feed2.getEntries())
-		{
-			try {
-				bce.setTitle(new PlainTextConstruct(siteTitle));
-				setContentBlob(bce, content);
-				bce.update();
-				return;
-			} catch (Exception e) {
-					throw new RuntimeException("Unable to update Google Sites page ", e);
-			}
+		
+		if (feed.getEntries().size() == 0) {
+			throw new RuntimeException("Parent page " + sitesPublishLocation + " was not found.  Please check config.");
 		}
-
-		if (feed.getEntries().size() != 1) {
-			throw new RuntimeException("More/Less than one result matched for Publish Location");
-		}
-
+		
 		BaseContentEntry parentEntry = feed.getEntries().get(0);
 
 		WebPageEntry entry = new WebPageEntry();
@@ -157,6 +147,27 @@ public class GoogleSitesClient {
 			throw new RuntimeException(e);
 		}
 
+	}
+
+	private boolean updatePageIfExists(String sitesPublishLocation, String sitePageName, String siteTitle,
+			String content) {
+		
+		ContentFeed feed = getContentFeedForPublishLocation(sitesPublishLocation + "/" + sitePageName);
+
+		if (feed.getEntries().size() != 1)
+			return false;
+		
+		BaseContentEntry bce = feed.getEntries().get(0);
+		
+		try {
+			bce.setTitle(new PlainTextConstruct(siteTitle));
+			setContentBlob(bce, content);
+			bce.update();
+			return true;
+		} catch (Exception e) {
+				throw new RuntimeException("Unable to update Google Sites page ", e);
+		}
+		
 	}
 
 	private void setContentBlob(BaseContentEntry<?> entry, String pageContent) {
